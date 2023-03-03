@@ -14,14 +14,14 @@ function Register() {
           <h1 className="h3 mb-2 fw-normal">Please register</h1>
 
           <Input label={"UserName"} state={name} setState={setName} />
-          <Input label={"Email address"} state={email} setState={setEmail} />
+          <Input label={"Email address"} type="email" state={email} setState={setEmail} />
           <Input
             label={"Password"}
             type="password"
             state={password}
             setState={setPassword}
           />
-
+  
           <button className="w-100 btn btn-lg btn-primary mt-2" type="submit">
             Register
           </button>

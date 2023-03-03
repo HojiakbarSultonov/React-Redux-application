@@ -8,12 +8,11 @@ function Input({label, state, setState, type="text"}) {
     <input
       type={type}
       className="form-control"
-      id="floatingInput"
       placeholder={label}
       value={state}
       onChange = {(e)=>setState(e.target.value)}
     />
-    <label for="floatingInput">{label}</label>
+    <label htmlFor="floatingInput">{label}</label>
   </div>
   )
 }

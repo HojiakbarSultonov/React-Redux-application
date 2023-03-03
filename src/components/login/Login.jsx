@@ -1,14 +1,25 @@
 import React, { useState } from "react";
 import { Logo } from "../../constants";
 import { Input } from "../../ui";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUserStart } from "../../slice/auth";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
+    
+  console.log(auth);
+const loginHandler = (e)=>{
+    e.preventDefault()
+    dispatch(loginUserStart())
+}
+
   return (
     <div className="text-center mt-5">
       <main className="form-signin w-25 m-auto">
-        <form>
+        <form onSubmit={loginHandler}>
           <img className="mb-4" src={Logo} alt="" width="100" height="70" />
           <h1 className="h3 mb-2 fw-normal">Please login</h1>
 
@@ -20,8 +31,8 @@ function Login() {
             setState={setPassword}
           />
 
-          <button className="w-100 btn btn-lg btn-primary mt-2" type="submit">
-            Login
+          <button disabled = {auth} className="w-100 btn btn-lg btn-primary mt-2" type="submit" >
+          Loading
           </button>
           <p className="mt-5 mb-3 text-muted">© 2017–2022</p>
         </form>
