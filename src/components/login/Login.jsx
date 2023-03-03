@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Logo } from "../../constants";
 import { Input } from "../../ui";
 import { useDispatch, useSelector } from "react-redux";
+import {ValidationError} from '../'
 import {
   signUserFailure,
   signUserStart,
@@ -33,7 +34,7 @@ function Login() {
         <form onSubmit={loginHandler}>
           <img className="mb-4" src={Logo} alt="" width="100" height="70" />
           <h1 className="h3 mb-2 fw-normal">Please login</h1>
-
+            <ValidationError/>
           <Input label={"Email address"} state={email} setState={setEmail} />
           <Input
             label={"Password"}

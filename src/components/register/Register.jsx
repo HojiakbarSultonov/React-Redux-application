@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Logo } from "../../constants";
 import { Input } from "../../ui";
 import { useDispatch, useSelector } from "react-redux";
+import { ValidationError } from "../";
 import {
   signUserFailure,
   signUserStart,
@@ -28,7 +29,6 @@ function Register() {
       const response = await AuthService.userRegister(user);
       dispatch(signUserSuccess(response.user));
     } catch (error) {
-      
       dispatch(signUserFailure(error.response.data.errors));
     }
   };
@@ -39,7 +39,7 @@ function Register() {
         <form onSubmit={registerHandler}>
           <img className="mb-4" src={Logo} alt="" width="100" height="70" />
           <h1 className="h3 mb-2 fw-normal">Please register</h1>
-
+          <ValidationError />
           <Input label={"UserName"} state={name} setState={setName} />
           <Input
             label={"Email address"}
