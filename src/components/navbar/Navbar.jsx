@@ -9,6 +9,7 @@ function Navbar() {
         <img src={Logo} alt="" width={"100px"} height={"70px"} />
       </Link>
       <nav className="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+
         <Link
           className="me-3 py-2 text-dark text-decoration-none"
           to={"/login"}

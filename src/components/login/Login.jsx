@@ -20,6 +20,7 @@ function Login() {
     e.preventDefault();
     dispatch(signUserStart());
     const user = { email, password };
+    console.log(user);
     try {
       const response = await AuthService.userLogin(user);
       dispatch(signUserSuccess(response.user));

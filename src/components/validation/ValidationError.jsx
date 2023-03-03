@@ -9,7 +9,7 @@ function ValidationError() {
       return `${name} -  ${message} `;
     });
   }, [error]);
-  console.log(error);
+
 
   return (
     error !== null && errorMessage().map(error=>(

@@ -6,7 +6,7 @@ import { ValidationError } from "../";
 import {
   signUserFailure,
   signUserStart,
-  signUserSuccess,
+  signUserSuccess, 
 } from "../../slice/auth";
 import AuthService from "../../service/auth";
 
@@ -18,8 +18,7 @@ function Register() {
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.auth);
   const { loggedIn } = useSelector((state) => state.auth);
-  console.log(isLoading);
-  console.log(loggedIn);
+  
 
   const registerHandler = async (e) => {
     e.preventDefault();
