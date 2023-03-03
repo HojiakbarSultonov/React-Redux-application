@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Logo } from "../../constants";
 import { Input } from "../../ui";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,19 +6,18 @@ import { ValidationError } from "../";
 import {
   signUserFailure,
   signUserStart,
-  signUserSuccess, 
+  signUserSuccess,
 } from "../../slice/auth";
 import AuthService from "../../service/auth";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoading } = useSelector((state) => state.auth);
-  const { loggedIn } = useSelector((state) => state.auth);
-  
+  const { isLoading, loggedIn } = useSelector((state) => state.auth);
 
   const registerHandler = async (e) => {
     e.preventDefault();
@@ -27,10 +26,17 @@ function Register() {
     try {
       const response = await AuthService.userRegister(user);
       dispatch(signUserSuccess(response.user));
+      navigate("/");
     } catch (error) {
       dispatch(signUserFailure(error.response.data.errors));
     }
   };
+
+  useEffect(() => {
+    if (loggedIn) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div className="text-center mt-5">
