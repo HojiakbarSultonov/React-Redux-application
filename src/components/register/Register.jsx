@@ -1,29 +1,50 @@
 import React, { useState } from "react";
 import { Logo } from "../../constants";
 import { Input } from "../../ui";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUserStart } from "../../slice/auth";
 
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.auth);
+console.log(isLoading);
+
+  const registerHandler = (e) => {
+    e.preventDefault();
+    dispatch(registerUserStart());
+  };
+
   return (
     <div className="text-center mt-5">
       <main className="form-signin w-25 m-auto">
-        <form>
+        <form onSubmit={registerHandler}>
           <img className="mb-4" src={Logo} alt="" width="100" height="70" />
           <h1 className="h3 mb-2 fw-normal">Please register</h1>
 
           <Input label={"UserName"} state={name} setState={setName} />
-          <Input label={"Email address"} type="email" state={email} setState={setEmail} />
+          <Input
+            label={"Email address"}
+            type="email"
+            state={email}
+            setState={setEmail}
+          />
           <Input
             label={"Password"}
             type="password"
             state={password}
             setState={setPassword}
           />
-  
-          <button className="w-100 btn btn-lg btn-primary mt-2" type="submit">
-            Register
+
+          <button
+            disabled={isLoading}
+            className="w-100 btn btn-lg btn-primary mt-2"
+            type="submit"
+          >
+            {isLoading ? "Loading" : "Register"}
           </button>
           <p className="mt-5 mb-3 text-muted">© 2017–2022</p>
         </form>

@@ -8,9 +8,9 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
+  const {isLoading} = useSelector((state) => state.auth);
     
-  console.log(auth);
+
 const loginHandler = (e)=>{
     e.preventDefault()
     dispatch(loginUserStart())
@@ -31,8 +31,8 @@ const loginHandler = (e)=>{
             setState={setPassword}
           />
 
-          <button disabled = {auth} className="w-100 btn btn-lg btn-primary mt-2" type="submit" >
-          Loading
+          <button disabled = {isLoading} className="w-100 btn btn-lg btn-primary mt-2" type="submit" >
+          {isLoading ? "Loading" : "Login"}
           </button>
           <p className="mt-5 mb-3 text-muted">© 2017–2022</p>
         </form>
