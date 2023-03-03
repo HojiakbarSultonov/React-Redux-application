@@ -3,9 +3,9 @@ import { Logo } from "../../constants";
 import { Input } from "../../ui";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  registerUserFailure,
-  registerUserStart,
-  registerUserSuccess,
+  signUserFailure,
+  signUserStart,
+  signUserSuccess,
 } from "../../slice/auth";
 import AuthService from "../../service/auth";
 
@@ -20,17 +20,16 @@ function Register() {
   console.log(isLoading);
   console.log(loggedIn);
 
-  const registerHandler = async(e) => {
+  const registerHandler = async (e) => {
     e.preventDefault();
-    dispatch(registerUserStart());
-    const user = {username:name, email, password}
+    dispatch(signUserStart());
+    const user = { username: name, email, password };
     try {
-      const response = await AuthService.userRegister(user)
-      console.log(response);
-      console.log(user);
-      dispatch(registerUserSuccess());
+      const response = await AuthService.userRegister(user);
+      dispatch(signUserSuccess(response.user));
     } catch (error) {
-      dispatch(registerUserFailure());
+      
+      dispatch(signUserFailure(error.response.data.errors));
     }
   };
 

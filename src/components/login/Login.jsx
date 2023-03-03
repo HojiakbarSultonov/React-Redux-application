@@ -2,19 +2,30 @@ import React, { useState } from "react";
 import { Logo } from "../../constants";
 import { Input } from "../../ui";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUserStart } from "../../slice/auth";
+import {
+  signUserFailure,
+  signUserStart,
+  signUserSuccess,
+} from "../../slice/auth";
+import AuthService from "../../service/auth";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const {isLoading} = useSelector((state) => state.auth);
-    
+  const { isLoading } = useSelector((state) => state.auth);
 
-const loginHandler = (e)=>{
-    e.preventDefault()
-    dispatch(loginUserStart())
-}
+  const loginHandler = async (e) => {
+    e.preventDefault();
+    dispatch(signUserStart());
+    const user = { email, password };
+    try {
+      const response = await AuthService.userLogin(user);
+      dispatch(signUserSuccess(response.user));
+    } catch (error) {
+      dispatch(signUserFailure(error.response.data.errors));
+    }
+  };
 
   return (
     <div className="text-center mt-5">
@@ -31,8 +42,12 @@ const loginHandler = (e)=>{
             setState={setPassword}
           />
 
-          <button disabled = {isLoading} className="w-100 btn btn-lg btn-primary mt-2" type="submit" >
-          {isLoading ? "Loading" : "Login"}
+          <button
+            disabled={isLoading}
+            className="w-100 btn btn-lg btn-primary mt-2"
+            type="submit"
+          >
+            {isLoading ? "Loading" : "Login"}
           </button>
           <p className="mt-5 mb-3 text-muted">© 2017–2022</p>
         </form>
