@@ -1,24 +1,31 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Loader } from "../../ui";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { getArticleStart, getArticleSuccess } from "../../slice/article";
-import ArticleService from './../../service/article';
-
-
+import ArticleService from "./../../service/article";
 
 function Main() {
   const { articles, isLoading } = useSelector((state) => state.article);
-  const navigate = useNavigate()
+  const { loggedIn, user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const getArticles = async () => {
     dispatch(getArticleStart());
     try {
       const response = await ArticleService.getArticles();
       dispatch(getArticleSuccess(response.articles));
-   
     } catch (error) {
       console.log("error");
+    }
+  };
+
+  const deleteArticle = async (slug) => {
+    try {
+      await ArticleService.deleteArticle(slug);
+      getArticles();
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -29,7 +36,7 @@ function Main() {
   return (
     <>
       {isLoading && <Loader />}
-    <div className="album py-5">
+      <div className="album py-5">
         <div>
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             {articles.map((item) => (
@@ -56,22 +63,28 @@ function Main() {
                     <div className="btn-group">
                       <button
                         type="button"
-                        className="btn btn-sm btn-outline-success" onClick={()=>navigate(`/article/${item.slug}`)}
+                        className="btn btn-sm btn-outline-success"
+                        onClick={() => navigate(`/article/${item.slug}`)}
                       >
                         View
                       </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-danger"
-                      >
-                        Delete
-                      </button>
+                      {loggedIn && user.username === item.author.username && (
+                        <>
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-outline-secondary"
+                            onClick={()=>navigate(`/editArticle/${item.slug}`)}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-outline-danger" onClick={()=>deleteArticle(item.slug)}
+                          >
+                            Delete
+                          </button>
+                        </>
+                      )}
                     </div>
                     <small className="text-muted fw-bold text-capitalize">
                       {item.author.username}
