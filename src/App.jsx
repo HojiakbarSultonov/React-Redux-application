@@ -14,7 +14,6 @@ function App() {
     try {
       const response = await AuthService.getUser();
       dispatch(signUserSuccess(response.user));
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
