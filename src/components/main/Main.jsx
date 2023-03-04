@@ -1,11 +1,31 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, {useEffect} from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Loader } from "../../ui";
 import { useNavigate } from 'react-router-dom';
+import { getArticleStart, getArticleSuccess } from "../../slice/article";
+import ArticleService from './../../service/article';
+
+
 
 function Main() {
   const { articles, isLoading } = useSelector((state) => state.article);
   const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const getArticles = async () => {
+    dispatch(getArticleStart());
+    try {
+      const response = await ArticleService.getArticles();
+      dispatch(getArticleSuccess(response.articles));
+   
+    } catch (error) {
+      console.log("error");
+    }
+  };
+
+  useEffect(() => {
+    getArticles();
+  }, []);
+
   return (
     <>
       {isLoading && <Loader />}
