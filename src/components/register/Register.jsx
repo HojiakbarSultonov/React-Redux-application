@@ -36,7 +36,7 @@ function Register() {
     if (loggedIn) {
       navigate("/");
     }
-  }, []);
+  }, [loggedIn]);
 
   return (
     <div className="text-center mt-5">
@@ -45,15 +45,21 @@ function Register() {
           <img className="mb-4" src={Logo} alt="" width="100" height="70" />
           <h1 className="h3 mb-2 fw-normal">Please register</h1>
           <ValidationError />
-          <Input label={"UserName"} state={name} setState={setName} />
+          <Input 
+            label={"UserName"}
+            state={name}
+            setState={setName}
+            type="text"
+          />
           <Input
             label={"Email address"}
             type="email"
             state={email}
             setState={setEmail}
           />
-          <Input
+          <Input 
             label={"Password"}
+            aut
             type="password"
             state={password}
             setState={setPassword}
